@@ -142,7 +142,7 @@
       overflow: hidden;
     }
 
-    /* Prominente Bovenbalken in de Canvas-kaarten */
+    /* Bovenbalken in de Canvas-kaarten */
     .card-top-bar {
       display: flex;
       align-items: center;
@@ -182,7 +182,6 @@
       letter-spacing: -0.3px;
     }
 
-    /* Apart, groter invoervak voor Merknaam / Klantsegment */
     .highlight-input-box {
       display: flex;
       align-items: center;
@@ -299,6 +298,11 @@
       box-shadow: 0 0 0 3px rgba(13, 95, 71, 0.08);
     }
 
+    /* Print-spiegelweergave (onzichtbaar op scherm) */
+    .print-mirror {
+      display: none;
+    }
+
     /* Fit Pijl Midden */
     .fit-divider {
       display: flex;
@@ -323,39 +327,109 @@
       transform: rotate(180deg);
     }
 
-    /* Print & PDF styling */
+    /* =========================================
+       SPECIFIEKE PRINT & PDF STYLING (A4 LIGGEND)
+       ========================================= */
     @media print {
       @page {
         size: A4 landscape;
-        margin: 6mm 8mm;
+        margin: 5mm 7mm;
       }
+
       body {
         background: #ffffff;
         padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
+
       .container {
         padding: 0;
         box-shadow: none;
         max-width: 100%;
       }
+
       .actions-bar {
         display: none !important;
       }
+
       .header {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
       }
-      .canvas-card {
-        height: 540px;
+
+      .header-info h1 {
+        font-size: 18px;
       }
-      .canvas-textarea {
-        background: transparent;
-        font-size: 11.5px;
+
+      .header-info p {
+        display: none; /* Bespaart kostbare verticale ruimte */
+      }
+
+      .project-meta {
+        margin-top: 2px;
+        gap: 8px;
+      }
+
+      .project-meta input {
         border: none;
-        padding: 2px 0;
+        padding: 0;
+        font-size: 11px;
+        font-weight: bold;
       }
+
+      .canvas-wrapper {
+        gap: 10px;
+      }
+
+      .canvas-card {
+        height: auto;
+        min-height: 520px;
+        border-width: 2px;
+        border-radius: 12px;
+      }
+
+      .card-top-bar {
+        padding: 4px 10px;
+      }
+
+      .card-main-title {
+        font-size: 13px;
+      }
+
       .highlight-input-box {
-        border: 1px solid #cbd5e1;
-        padding: 4px 8px;
+        border: 1px solid #94a3b8;
+        padding: 2px 6px;
+        max-width: 250px;
+      }
+
+      .highlight-input-box input {
+        font-size: 11px;
+      }
+
+      .section-box {
+        padding: 6px 8px;
+      }
+
+      .box-title {
+        font-size: 11px;
+      }
+
+      .box-subtitle {
+        display: none; /* Subtitels verbergen bij print voor maximale tekstruimte */
+      }
+
+      /* VERBERG DE TEXTAREA EN TOON DE VLOEIENDE PRINT-MIRROR */
+      .canvas-textarea {
+        display: none !important;
+      }
+
+      .print-mirror {
+        display: block !important;
+        white-space: pre-wrap;
+        font-size: 8.8px;
+        line-height: 1.32;
+        color: #0f172a;
+        word-break: break-word;
       }
     }
 
@@ -405,7 +479,7 @@
         <input type="file" id="importInput" accept=".json" style="display:none" onchange="importJSON(event)">
       </label>
       <button class="btn btn-danger" onclick="clearCanvas()">Leegmaken</button>
-      <button class="btn btn-primary" onclick="window.print()">Printen / opslaan als PDF</button>
+      <button class="btn btn-primary" onclick="printCanvas()">Printen / opslaan als PDF</button>
     </div>
   </div>
 
@@ -414,7 +488,6 @@
     
     <!-- Linker Kaart: Waardepropositie -->
     <div class="canvas-card">
-      <!-- Prominente topbalk met Merknaam -->
       <div class="card-top-bar">
         <div class="card-title-group">
           <div class="badge-icon badge-a">A</div>
@@ -427,14 +500,14 @@
         </div>
       </div>
 
-      <!-- Inhoud Waardepropositie -->
       <div class="card-body-grid">
         <!-- Kolom 1: Producten & Diensten -->
         <div class="column border-right-dashed">
           <div class="section-box">
             <div class="box-title">Producten & diensten</div>
             <div class="box-subtitle">Wat bied je concreet aan?</div>
-            <textarea id="products" class="canvas-textarea" placeholder="Welke producten of diensten bied je aan waarmee de klant zijn taken kan uitvoeren?" oninput="saveData()"></textarea>
+            <textarea id="products" class="canvas-textarea" placeholder="Welke producten of diensten bied je aan?" oninput="saveData()"></textarea>
+            <div id="print_products" class="print-mirror"></div>
           </div>
         </div>
 
@@ -443,12 +516,14 @@
           <div class="section-box border-bottom-dashed">
             <div class="box-title">Voordeelverschaffers</div>
             <div class="box-subtitle">Hoe creëer je extra waarde of voordeel?</div>
-            <textarea id="gainCreators" class="canvas-textarea" placeholder="Hoe maximaliseer je het resultaat en overtref je verwachtingen?" oninput="saveData()"></textarea>
+            <textarea id="gainCreators" class="canvas-textarea" placeholder="Hoe maximaliseer je resultaten?" oninput="saveData()"></textarea>
+            <div id="print_gainCreators" class="print-mirror"></div>
           </div>
           <div class="section-box">
             <div class="box-title">Pijnverzachters</div>
             <div class="box-subtitle">Hoe neem je frustraties en risico's weg?</div>
-            <textarea id="painRelievers" class="canvas-textarea" placeholder="Hoe verhelp je obstakels, ergernissen of kosten van de klant?" oninput="saveData()"></textarea>
+            <textarea id="painRelievers" class="canvas-textarea" placeholder="Hoe verhelp je obstakels?" oninput="saveData()"></textarea>
+            <div id="print_painRelievers" class="print-mirror"></div>
           </div>
         </div>
       </div>
@@ -462,7 +537,6 @@
 
     <!-- Rechter Kaart: Klantprofiel -->
     <div class="canvas-card">
-      <!-- Prominente topbalk met Klantsegment -->
       <div class="card-top-bar">
         <div class="card-title-group">
           <div class="badge-icon badge-b">B</div>
@@ -471,23 +545,24 @@
         <div class="highlight-input-box coral-theme">
           <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
           <label>KLANTSEGMENT:</label>
-          <input type="text" id="customerSegment" placeholder="Bijv. Drukke gezinnen & professionals" oninput="saveData()">
+          <input type="text" id="customerSegment" placeholder="Bijv. Drukke gezinnen" oninput="saveData()">
         </div>
       </div>
 
-      <!-- Inhoud Klantprofiel -->
       <div class="card-body-grid">
         <!-- Kolom 1: Voordelen & Pijnpunten -->
         <div class="column border-right-dashed">
           <div class="section-box border-bottom-dashed">
             <div class="box-title">Voordelen (Gains)</div>
             <div class="box-subtitle">Wat wil de klant bereiken of winnen?</div>
-            <textarea id="gains" class="canvas-textarea" placeholder="Welke gewenste resultaten, tijdwinst of positieve emoties zoekt de klant?" oninput="saveData()"></textarea>
+            <textarea id="gains" class="canvas-textarea" placeholder="Welke gewenste resultaten zoekt de klant?" oninput="saveData()"></textarea>
+            <div id="print_gains" class="print-mirror"></div>
           </div>
           <div class="section-box">
             <div class="box-title">Pijnpunten (Pains)</div>
             <div class="box-subtitle">Wat zit de klant nu dwars?</div>
-            <textarea id="pains" class="canvas-textarea" placeholder="Welke ergernissen, risico's, barrières of ongemakken ervaart de klant?" oninput="saveData()"></textarea>
+            <textarea id="pains" class="canvas-textarea" placeholder="Welke ergernissen ervaart de klant?" oninput="saveData()"></textarea>
+            <div id="print_pains" class="print-mirror"></div>
           </div>
         </div>
 
@@ -496,7 +571,8 @@
           <div class="section-box">
             <div class="box-title">Klanttaken (Jobs)</div>
             <div class="box-subtitle">Wat probeert de klant gedaan te krijgen?</div>
-            <textarea id="jobs" class="canvas-textarea" placeholder="Welke functionele, sociale of emotionele taken probeert de doelgroep op te lossen?" oninput="saveData()"></textarea>
+            <textarea id="jobs" class="canvas-textarea" placeholder="Welke taken probeert de doelgroep op te lossen?" oninput="saveData()"></textarea>
+            <div id="print_jobs" class="print-mirror"></div>
           </div>
         </div>
       </div>
@@ -510,6 +586,27 @@
     'projectName', 'projectDate', 'brandName', 'customerSegment',
     'products', 'gainCreators', 'painRelievers', 'jobs', 'gains', 'pains'
   ];
+
+  const TEXT_FIELDS = ['products', 'gainCreators', 'painRelievers', 'jobs', 'gains', 'pains'];
+
+  // Zorgt dat print-mirrors altijd synchroon lopen met de textarea's
+  function syncPrintMirror() {
+    TEXT_FIELDS.forEach(field => {
+      const textarea = document.getElementById(field);
+      const mirror = document.getElementById('print_' + field);
+      if (textarea && mirror) {
+        mirror.textContent = textarea.value;
+      }
+    });
+  }
+
+  function printCanvas() {
+    syncPrintMirror();
+    window.print();
+  }
+
+  // Luister ook als iemand Ctrl+P / Cmd+P typt
+  window.addEventListener('beforeprint', syncPrintMirror);
 
   function saveData() {
     const data = {};
@@ -543,11 +640,11 @@
         document.getElementById(field).value = '';
       });
       document.getElementById('projectDate').value = new Date().toISOString().split('T')[0];
+      syncPrintMirror();
       saveData();
     }
   }
 
-  // Hier is het nieuwe HelloFresh-voorbeeld verwerkt
   function loadExample() {
     const example = {
       projectName: "HelloFresh Maaltijdbox Propositie",
@@ -565,6 +662,7 @@
     FIELDS.forEach(field => {
       document.getElementById(field).value = example[field] || '';
     });
+    syncPrintMirror();
     saveData();
   }
 
@@ -596,6 +694,7 @@
             document.getElementById(field).value = data[field];
           }
         });
+        syncPrintMirror();
         saveData();
       } catch (err) {
         alert("Ongeldig JSON-bestand.");
@@ -605,7 +704,10 @@
     event.target.value = '';
   }
 
-  window.addEventListener('DOMContentLoaded', loadData);
+  window.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    syncPrintMirror();
+  });
 </script>
 
 </body>
