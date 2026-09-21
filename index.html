@@ -423,7 +423,7 @@
         <div class="highlight-input-box green-theme">
           <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76V14h2V8.76L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
           <label>MERKNAAM:</label>
-          <input type="text" id="brandName" placeholder="Bijv. BeanGreen" oninput="saveData()">
+          <input type="text" id="brandName" placeholder="Bijv. HelloFresh" oninput="saveData()">
         </div>
       </div>
 
@@ -471,7 +471,7 @@
         <div class="highlight-input-box coral-theme">
           <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
           <label>KLANTSEGMENT:</label>
-          <input type="text" id="customerSegment" placeholder="Bijv. Thuiswerkers" oninput="saveData()">
+          <input type="text" id="customerSegment" placeholder="Bijv. Drukke gezinnen & professionals" oninput="saveData()">
         </div>
       </div>
 
@@ -547,18 +547,19 @@
     }
   }
 
+  // Hier is het nieuwe HelloFresh-voorbeeld verwerkt
   function loadExample() {
     const example = {
-      projectName: "Duurzaam Koffie Abonnement",
+      projectName: "HelloFresh Maaltijdbox Propositie",
       projectDate: new Date().toISOString().split('T')[0],
-      brandName: "BeanGreen",
-      customerSegment: "Kwaliteitsbewuste Thuiswerker",
-      products: "• Wekelijks vers gebrande specialty bonen\n• Past door de brievenbus\n• Flexibele pauzeer-app",
-      gainCreators: "• Barista-kwaliteit zonder de deur uit te gaan\n• 100% traceerbare en CO2-neutrale bonen\n• Gratis proeverijkaartjes bij elke levering",
-      painRelievers: "• Nooit meer 's ochtends zonder koffie\n• Geen langlopend wurgcontract (met 1 klik pauzeren)\n• Geen gesjouw met zware verpakkingen",
-      jobs: "• Snel een smaakvolle start van de werkdag\n• Goede koffie serveren aan gasten\n• Duurzamere keuzes maken in het huishouden",
-      gains: "• Tijd besparen in de supermarkt\n• Nieuwe smaken en brandingen ontdekken\n• Goed gevoel over eerlijke prijzen voor boeren",
-      pains: "• Supermarktkoffie is vaak oud en bitter\n• Vergeten op tijd nieuwe bonen te kopen\n• Onduidelijkheid over herkomst en duurzaamheid"
+      brandName: "HelloFresh",
+      customerSegment: "Drukke gezinnen & professionals",
+      products: "• Maaltijdboxen met verse, afgemeten ingrediënten\n• Recepten met duidelijke bereidingsinstructies\n• Online/app maaltijden kiezen en bestellen\n• Bezorging aan huis\n• Keuze uit verschillende gerechten en voorkeuren\n• Flexibele samenstelling van de maaltijdbox\n• Porties afgestemd op het aantal personen\n• Verschillende maaltijdcategorieën, zoals vegetarisch en gezinsvriendelijk",
+      gainCreators: "• Wisselend receptenaanbod → meer variatie en inspiratie\n• Verse ingrediënten → ervaring van een verse, zelfbereide maaltijd\n• Nieuwe recepten → nieuwe smaken en gerechten ontdekken\n• Afgemeten hoeveelheden → gemak én minder voedselverspilling\n• Keuze uit verschillende gerechten → maaltijden afstemmen op eigen voorkeuren\n• Receptinformatie → helpt bij bewustere keuzes\n• Zelf koken met minder voorbereiding → gemak én het gevoel zelf een maaltijd te hebben gemaakt\n• Regelmatig nieuw aanbod → voorkomt dat eten snel eentonig wordt",
+      painRelievers: "• Bezorging aan huis → minder boodschappen hoeven doen\n• Vooraf geselecteerde recepten → minder keuzestress\n• Afgemeten ingrediënten → minder meten en minder verspilling\n• Duidelijke recepten → minder uitzoekwerk tijdens het koken\n• Maaltijden vooraf plannen → minder dagelijkse maaltijdstress\n• Ingrediënten en recept samen geleverd → geen aparte boodschappenlijst nodig\n• Keuzeopties → gemakkelijker rekening houden met persoonlijke voorkeuren\n• Complete maaltijdbox → minder tijd kwijt aan organiseren en voorbereiden",
+      jobs: "• Gezond en gevarieerd eten\n• Iedere dag een maaltijd op tafel zetten\n• Bedenken wat er gegeten wordt\n• Boodschappen doen en ingrediënten verzamelen\n• Maaltijden voor de week plannen\n• Gezond koken combineren met werk, gezin en andere bezigheden\n• Nieuwe gerechten ontdekken zonder zelf uitgebreid recepten te zoeken",
+      gains: "• Tijd besparen\n• Gemakkelijk een gezonde maaltijd bereiden\n• Minder hoeven nadenken over wat te eten\n• Meer variatie in maaltijden\n• Nieuwe recepten en smaken ontdekken\n• Minder voedsel verspillen\n• Bewuster en gezonder eten\n• Met weinig moeite een verse maaltijd bereiden\n• Gemak ervaren zonder volledig afhankelijk te zijn van kant-en-klaarmaaltijden",
+      pains: "• Gezond eten kan duur aanvoelen\n• Iedere dag bedenken wat te eten kost mentale energie\n• Gezond koken kost tijd en moeite\n• Boodschappen doen kost tijd\n• Na een drukke dag ontbreekt inspiratie om te koken\n• Ingrediënten blijven over en worden weggegooid\n• Het is lastig om voldoende afwisseling in maaltijden te krijgen\n• Recepten zoeken en een boodschappenlijst maken kost extra tijd"
     };
 
     FIELDS.forEach(field => {
